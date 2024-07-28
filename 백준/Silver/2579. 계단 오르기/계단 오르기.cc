@@ -20,10 +20,7 @@ int main()
 	dp[2] = max(vec[0]+vec[2],vec[1]+vec[2]);
 
 	for (int i = 3; i < n; ++i)
-	{
 		dp[i] = max(dp[i - 2] + vec[i], vec[i - 1]+vec[i] + dp[i-3]);
-	}
-
 
 	cout << dp[n-1];
 
