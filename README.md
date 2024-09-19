@@ -1,2 +1,2 @@
 # Problem-Solving
-Repository for Baekjoon problem solving
+This is a C++ problem solving repository.
