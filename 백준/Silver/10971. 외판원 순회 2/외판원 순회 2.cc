@@ -18,11 +18,7 @@ int tsp(int cur, int visited)
 		}
 		return cost[cur][0];
 	}
-	if (dp[cur][visited] != -1)
-	{
-		return dp[cur][visited];
-	}
-
+    
 	int &result = dp[cur][visited];
 	if (result != -1)
 	{
