@@ -35,6 +35,6 @@ int main()
         ans = min(ans, dp[i]);
     }
 
-    cout << ans << '\n';
+    cout << ans;
     return 0;
 }
