@@ -1,41 +1,10 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <queue>
 using namespace std;
 
+using Pii = pair<int, int>;
 int N, M;
-int parent[10001];
-struct Edge
-{
-    int u, v, w;
-    bool operator<(const Edge &other) const
-    {
-        return w < other.w;
-    }
-};
-
-int findParent(int x)
-{
-    if (parent[x] == x)
-    {
-        return x;
-    }
-    return parent[x] = findParent(parent[x]);
-}
-
-void unionParent(int a, int b)
-{
-    a = findParent(a);
-    b = findParent(b);
-    if (a < b)
-    {
-        parent[b] = a;
-    }
-    else
-    {
-        parent[a] = b;
-    }
-}
 
 int main()
 {
@@ -44,31 +13,43 @@ int main()
 
     cin >> N >> M;
 
-    vector<Edge> edges;
+    vector<Pii> edges[N + 1];
+    vector<bool> visited(N + 1, 0);
     for (int i = 0; i < M; ++i)
     {
         int a, b, c;
         cin >> a >> b >> c;
-        edges.push_back({a, b, c});
-    }
-    for (int i = 0; i < N; ++i)
-    {
-        parent[i] = i;
+        edges[a].push_back({c, b});
+        edges[b].push_back({c, a});
     }
 
-    sort(edges.begin(), edges.end());
-
+    priority_queue<Pii, vector<Pii>, greater<Pii>> pq;
+    pq.push({0, 1});
     int result = 0;
-    for (int i = 0; i < edges.size(); ++i)
-    {
-        int u = edges[i].u;
-        int v = edges[i].v;
-        int w = edges[i].w;
+    int cnt = 0;
 
-        if (findParent(u) != findParent(v))
+    while (!pq.empty())
+    {
+        int w = pq.top().first;
+        int cur = pq.top().second;
+        pq.pop();
+
+        if (visited[cur])
+            continue;
+
+        visited[cur] = 1;
+        result += w;
+        ++cnt;
+
+        if (cnt == N)
+            break;
+
+        for (auto &next : edges[cur])
         {
-            unionParent(u, v);
-            result += w;
+            if (!visited[next.second])
+            {
+                pq.push(next);
+            }
         }
     }
 
